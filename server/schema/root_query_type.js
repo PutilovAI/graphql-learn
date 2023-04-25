@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const graphql = require('graphql');
+const graphql = require('graphql')
 const { GraphQLObjectType, GraphQLList, GraphQLID, GraphQLNonNull } = graphql;
 const SongType = require('./song_type');
 const LyricType = require('./lyric_type');
