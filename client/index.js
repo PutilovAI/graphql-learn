@@ -6,6 +6,7 @@ import { App } from './App';
 import { ChakraProvider } from '@chakra-ui/react';
 import { SongList } from './components/SongList';
 import { SongCreate } from './components/SongCreate';
+import { SongDetail } from './components/SongDetail';
 
 const apolloClient = new ApolloClient({
     cache: new InMemoryCache(),
@@ -25,6 +26,10 @@ const router = createHashRouter([
             {
                 path: 'songs/new',
                 element: <SongCreate />
+            },
+            {
+                path: 'songs/:id',
+                element: <SongDetail />
             }
         ]
     }

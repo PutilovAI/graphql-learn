@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
-const graphql = require('graphql')
+import mongoose from 'mongoose';
+import graphql from 'graphql';
 const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList } = graphql;
-const LyricType = require('./lyric_type');
+import LyricType from './lyric_type.js';
 const Song = mongoose.model('song');
 
 const SongType = new GraphQLObjectType({
@@ -18,4 +18,4 @@ const SongType = new GraphQLObjectType({
   })
 });
 
-module.exports = SongType;
+export default SongType;

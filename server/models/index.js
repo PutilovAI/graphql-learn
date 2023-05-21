@@ -1,2 +1,2 @@
-require('./song');
-require('./lyric');
+import './song.js';
+import './lyric.js';

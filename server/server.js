@@ -1,9 +1,12 @@
-const express = require('express');
-const models = require('./models');
-const { graphqlHTTP } = require('express-graphql');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const schema = require('./schema/schema');
+import express from 'express';
+import webpackMiddleware from 'webpack-dev-middleware';
+import webpack from 'webpack';
+import webpackConfig from '../webpack.config.js';
+import './models/index.js';
+import { graphqlHTTP } from 'express-graphql';
+import mongoose from 'mongoose';
+import bodyParser from 'body-parser';
+import schema from './schema/schema.js';
 
 const app = express();
 
@@ -26,9 +29,7 @@ app.use('/graphql', graphqlHTTP({
   graphiql: true
 }));
 
-const webpackMiddleware = require('webpack-dev-middleware');
-const webpack = require('webpack');
-const webpackConfig = require('../webpack.config.js');
+
 app.use(webpackMiddleware(webpack(webpackConfig)));
 
 export default app;

@@ -1,32 +1,41 @@
 import React from 'react';
-import { gql, useQuery } from '@apollo/client';
-import { Button, List, ListItem, UnorderedList, VStack } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
-
-const songListQuery = gql`
-    {
-        songs {
-            id
-            title
-        }
-    }
-`;
+import { useMutation, useQuery } from '@apollo/client';
+import { Box, Button, HStack, ListItem, UnorderedList, VStack, Flex, Link } from '@chakra-ui/react';
+import { Link as RouterLink } from 'react-router-dom';
+import { deleteSongMutation, songListQuery } from '../queries';
 
 export const SongList = () => {
-    const { data, loading, ...rest } = useQuery(songListQuery);
+    const { data, loading, refetch, ...rest } = useQuery(songListQuery);
+    const [deleteSong] = useMutation(deleteSongMutation);
 
-    console.log(rest)
+    const onDeleteSong = (songId) => {
+        deleteSong({
+            variables: { songId },
+            refetchQueries: [{ query: songListQuery }]
+        })
+    };
 
     if (loading) {
-        return <div>Loading...</div>
+        return <div>Loading...</div>;
     }
 
     return (
         <VStack align="left">
-            <UnorderedList>
-                { data?.songs?.map((song, index) => (
-                    <ListItem key={song.id}>
-                        { song.title }
+            <UnorderedList spacing="2">
+                { data?.songs?.map(({ id, title }, index) => (
+                    <ListItem key={ id } as={ Flex } width="300px" justifyContent="space-between">
+                        <Link as={ RouterLink } to={ `/songs/${id}`}>
+                            { title }
+                        </Link>
+
+                        <Button
+                            aria-label="Remove song"
+                            onClick={ () => onDeleteSong(id) }
+                            size="xs"
+                            colorScheme="red"
+                        >
+                            Delete
+                        </Button>
                     </ListItem>
                 )) }
             </UnorderedList>
@@ -37,5 +46,5 @@ export const SongList = () => {
                 </Button>
             </Link>
         </VStack>
-    )
-}
+    );
+};

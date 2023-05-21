@@ -1,0 +1,32 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: RootQueryType
+    mutation: Mutation
+}
+
+type LyricType {
+    content: String
+    id: ID
+    likes: Int
+    song: SongType
+}
+
+type Mutation {
+    addLyricToSong(content: String, songId: ID): SongType
+    addSong(title: String): SongType
+    deleteSong(id: ID): SongType
+    likeLyric(id: ID): LyricType
+}
+
+type RootQueryType {
+    lyric(id: ID!): LyricType
+    song(id: ID!): SongType
+    songs: [SongType]
+}
+
+type SongType {
+    id: ID
+    lyrics: [LyricType]
+    title: String
+}
