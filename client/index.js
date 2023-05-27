@@ -9,7 +9,11 @@ import { SongCreate } from './components/SongCreate';
 import { SongDetail } from './components/SongDetail';
 
 const apolloClient = new ApolloClient({
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({
+        dataIdFromObject: (object) => {
+            return object.id;
+        }
+    }),
     uri: 'http://localhost:4000/graphql'
 });
 

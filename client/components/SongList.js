@@ -1,17 +1,16 @@
 import React from 'react';
 import { useMutation, useQuery } from '@apollo/client';
-import { Box, Button, HStack, ListItem, UnorderedList, VStack, Flex, Link } from '@chakra-ui/react';
+import { Button, Flex, Link, ListItem, UnorderedList, VStack } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
 import { deleteSongMutation, songListQuery } from '../queries';
 
 export const SongList = () => {
-    const { data, loading, refetch, ...rest } = useQuery(songListQuery);
+    const { data, loading } = useQuery(songListQuery);
     const [deleteSong] = useMutation(deleteSongMutation);
 
     const onDeleteSong = (songId) => {
         deleteSong({
             variables: { songId },
-            refetchQueries: [{ query: songListQuery }]
         })
     };
 
@@ -40,7 +39,7 @@ export const SongList = () => {
                 )) }
             </UnorderedList>
 
-            <Link to="/songs/new">
+            <Link as={ RouterLink } to="/songs/new">
                 <Button>
                     Create a new song
                 </Button>

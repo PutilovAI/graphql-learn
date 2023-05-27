@@ -1,17 +1,17 @@
-import React, { useRef, useState } from 'react';
-import { Button, FormControl, FormLabel, Heading, Input, VStack, Link } from '@chakra-ui/react';
+import React from 'react';
+import { Heading, Link, VStack } from '@chakra-ui/react';
 import { Link as RouteLink, useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
-import { addSongQuery, songListQuery } from '../queries';
+import { addSongMutation, songListQuery } from '../queries';
+import { SimpleForm } from './SimpleForm.js';
 
 export const SongCreate = () => {
-    const inputRef = useRef(null);
-    const [addSong, result] = useMutation(addSongQuery);
+    const [addSong] = useMutation(addSongMutation);
     const navigate = useNavigate();
 
-    const onSubmit = () => {
+    const onSubmit = (value) => {
         addSong({
-            variables: { title: inputRef.current.value },
+            variables: { title: value },
             refetchQueries: [
                 {
                     query: songListQuery,
@@ -28,17 +28,10 @@ export const SongCreate = () => {
                 Create a song
             </Heading>
 
-            <FormControl>
-                <FormLabel>
-                    Title
-                </FormLabel>
-
-                <Input ref={ inputRef }/>
-            </FormControl>
-
-            <Button colorScheme="green" onClick={ onSubmit }>
-                Create
-            </Button>
+            <SimpleForm
+                onSubmit={ onSubmit }
+                label="Song name"
+            />
         </VStack>
     );
 };
